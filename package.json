@@ -5,8 +5,8 @@
   "main": "background.js",
   "scripts": {
     "test": "standard --fix",
-    "clean": "rimraf medium-banner-remover.zip",
-    "zip": "mkdir medium-banner-remover && cp -R {src,icons,manifest.json} medium-banner-remover && zip -r medium-banner-remover.zip medium-banner-remover && rimraf medium-banner-remover",
+    "clean": "rimraf medium-banner-remover && rimraf medium-banner-remover.zip",
+    "zip": "mkdir medium-banner-remover && cp -R {src,icons,manifest.json} medium-banner-remover && zip -r medium-banner-remover.zip medium-banner-remover",
     "build": "npm run test && npm run clean && npm run zip"
   },
   "keywords": [
