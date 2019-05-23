@@ -1,14 +1,14 @@
 {
   "name": "medium-banner-remover",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Simple browser extension to remove annoying banners from medium articles",
   "main": "background.js",
   "scripts": {
     "test": "standard --fix"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["medium", "browser", "extension", "remove", "banners"],
+  "author": "Colin Crawford",
+  "license": "MIT",
   "devDependencies": {
     "standard": "^12.0.1"
   }
