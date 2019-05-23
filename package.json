@@ -4,12 +4,22 @@
   "description": "Simple browser extension to remove annoying banners from medium articles",
   "main": "background.js",
   "scripts": {
-    "test": "standard --fix"
+    "test": "standard --fix",
+    "clean": "rimraf medium-banner-remover.zip",
+    "zip": "mkdir medium-banner-remover && cp -R {src,icons,manifest.json} medium-banner-remover && zip -r medium-banner-remover.zip medium-banner-remover && rimraf medium-banner-remover",
+    "build": "npm run test && npm run clean && npm run zip"
   },
-  "keywords": ["medium", "browser", "extension", "remove", "banners"],
+  "keywords": [
+    "medium",
+    "browser",
+    "extension",
+    "remove",
+    "banners"
+  ],
   "author": "Colin Crawford",
   "license": "MIT",
   "devDependencies": {
+    "rimraf": "^2.6.3",
     "standard": "^12.0.1"
   }
 }

@@ -20,7 +20,7 @@ function registerOnExtensionIconClicked (cb) {
   }
 }
 
-function removeMediumBanners() {
+function removeMediumBanners () {
   return runMediumBannerRemoverScript('src/remove-medium-banners.js')
 }
 
