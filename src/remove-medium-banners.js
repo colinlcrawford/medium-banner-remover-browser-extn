@@ -6,10 +6,15 @@ function getMediumStickyFooter () {
   return document.querySelector('.js-stickyFooter')
 }
 
+function getBottomBanner () {
+  return document.querySelector('.js-meterBanner')
+}
+
 function getMediumBanners () {
   return filter([
     getMediumStickyHeader(),
-    getMediumStickyFooter()
+    getMediumStickyFooter(),
+    getBottomBanner()
   ], isTruthy)
 }
 
