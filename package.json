@@ -1,0 +1,15 @@
+{
+  "name": "medium-banner-remover",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "scripts": {
+    "test": "standard --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}
