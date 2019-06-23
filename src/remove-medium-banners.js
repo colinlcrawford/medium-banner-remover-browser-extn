@@ -11,11 +11,11 @@ function getBottomBanner () {
 }
 
 function getMediumBanners () {
-  return filter([
+  return filter(isTruthy, [
     getMediumStickyHeader(),
     getMediumStickyFooter(),
     getBottomBanner()
-  ], isTruthy)
+  ])
 }
 
 function removeDomNode (domNode) {
@@ -26,7 +26,7 @@ function removeDomNode (domNode) {
  * removes the medium ad and popup banners from the page
  */
 function removeMediumBanners () {
-  return map(getMediumBanners(), removeDomNode)
+  return map(removeDomNode, getMediumBanners())
 }
 
 removeMediumBanners()
@@ -34,11 +34,11 @@ removeMediumBanners()
 // ==========================================
 // ===== Some helper functions
 // ==========================================
-function map (arr, fn) {
+function map (fn, arr) {
   return arr.map(fn)
 }
 
-function filter (arr, fn) {
+function filter (fn, arr) {
   return arr.filter(fn)
 }
 
