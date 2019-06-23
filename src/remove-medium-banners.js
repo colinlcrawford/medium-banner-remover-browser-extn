@@ -1,5 +1,19 @@
+function getNav () {
+  return document.querySelector('nav')
+}
+
 function getMediumStickyHeader () {
   return document.querySelector('.metabar.js-metabar')
+}
+
+/**
+ * Prefer the more granular sticky header -
+ * but sometimes the class names seem to
+ * be obfuscated, so just grab the nav element
+ */
+function getMediumHeader () {
+  const stickyHeader = getMediumStickyHeader()
+  return stickyHeader || getNav()
 }
 
 function getMediumStickyFooter () {
@@ -12,7 +26,7 @@ function getBottomBanner () {
 
 function getMediumBanners () {
   return filter(isTruthy, [
-    getMediumStickyHeader(),
+    getMediumHeader(),
     getMediumStickyFooter(),
     getBottomBanner()
   ])
@@ -31,9 +45,11 @@ function removeMediumBanners () {
 
 removeMediumBanners()
 
-// ==========================================
-// ===== Some helper functions
-// ==========================================
+/*
+==========================================
+|======== Some helper functions =========|
+==========================================
+*/
 function map (fn, arr) {
   return arr.map(fn)
 }
@@ -45,4 +61,4 @@ function filter (fn, arr) {
 function isTruthy (value) {
   return !!value
 }
-// ==========================================
+/* ===================================== */
