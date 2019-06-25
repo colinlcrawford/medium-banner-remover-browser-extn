@@ -13,18 +13,27 @@
   ],
   "main": "background.js",
   "scripts": {
-    "test": "eslint src",
+    "test": "eslint src && npm run test:e2e",
+    "test:e2e": "start-server-and-test serve-test-app http://localhost:8080 cypress",
+    "cypress": "cypress run",
+    "cypress:open": "cypress open",
+    "serve-test-app": "cp src/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
     "clean": "rimraf medium-banner-remover && rimraf medium-banner-remover.zip",
     "zip": "mkdir medium-banner-remover && cp -R {src,icons,manifest.json} medium-banner-remover && zip -r medium-banner-remover.zip medium-banner-remover",
     "build": "npm run test && npm run clean && npm run zip"
   },
   "devDependencies": {
+    "cypress": "^3.3.1",
     "eslint": "^6.0.0",
     "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "start-server-and-test": "^1.9.1",
+    "static-server": "^2.2.1"
   }
 }
