@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Medium Banner Remover",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple addon to remove medium article banners that clutter the screen",
   "homepage_url": "https://github.com/colinlcrawford/medium-banner-remover-browser-extn",
   "author": "Colin Crawford",
