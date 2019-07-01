@@ -2,8 +2,7 @@ const baseUrl = 'http://localhost:8080'
 const backgroundScriptUrl = '/remove-medium-banners.js'
 
 const loadBackgroundJs = win =>
-  cy.request(baseUrl + backgroundScriptUrl)
-    .then((resp) => win.eval(resp.body))
+  cy.request(baseUrl + backgroundScriptUrl).then(resp => win.eval(resp.body))
 
 describe('remove-medium-banners', function () {
   describe('removeMediumBanners()', function () {
@@ -42,6 +41,32 @@ describe('remove-medium-banners', function () {
       cy.window()
         .then(win => loadBackgroundJs(win))
         .then(() => cy.get('.js-stickyFooter').should('not.exist'))
+    })
+
+    it('removes the member preview bottom banner', function () {
+      cy.visit(baseUrl + '/member-preview-bottom-banner.html')
+      const bottomBanner = cy
+        .get('body')
+        .contains(
+          // 'Get one more story in your member preview when you sign up. It’s free.'
+          'member preview when you sign up'
+        )
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+
+      bottomBanner.should('exist')
+
+      cy.window()
+        .then(win => loadBackgroundJs(win))
+        .then(() =>
+          bottomBanner.should($divs => {
+            expect($divs[0]).to.be.undefined
+          })
+        )
     })
   })
 })
