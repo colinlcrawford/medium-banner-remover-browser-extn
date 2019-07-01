@@ -1,6 +1,6 @@
 {
   "name": "medium-banner-remover",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Colin Crawford",
   "license": "MIT",
   "description": "Simple browser extension to remove annoying banners from medium articles",
