@@ -1,9 +1,9 @@
 function getNav () {
-  return document.querySelector('nav')
+  return querySelector('nav')
 }
 
 function getMediumStickyHeader () {
-  return document.querySelector('.metabar.js-metabar')
+  return querySelector('.metabar.js-metabar')
 }
 
 /**
@@ -17,30 +17,37 @@ function getMediumHeader () {
 }
 
 function getMediumStickyFooter () {
-  return document.querySelector('.js-stickyFooter')
+  return querySelector('.js-stickyFooter')
 }
 
 function getBottomBanner () {
-  return document.querySelector('.js-meterBanner')
+  return querySelector('.js-meterBanner')
+}
+
+function getBottomFreeSignUpExtraPreviewBanner () {
+  return pipe([
+    filter(
+      hasText('Get one more story in your member preview when you sign up')
+    ),
+    first,
+    nthGenerationParent(6)
+  ])(querySelectorAll('h2'))
 }
 
 function getMediumBanners () {
-  return filter(isTruthy, [
+  return filter(isTruthy)([
     getMediumHeader(),
     getMediumStickyFooter(),
-    getBottomBanner()
+    getBottomBanner(),
+    getBottomFreeSignUpExtraPreviewBanner()
   ])
-}
-
-function removeDomNode (domNode) {
-  return domNode.remove()
 }
 
 /**
  * removes the medium ad and popup banners from the page
  */
 function removeMediumBanners () {
-  return map(removeDomNode, getMediumBanners())
+  return map(removeDomNode)(getMediumBanners())
 }
 
 removeMediumBanners()
@@ -50,15 +57,97 @@ removeMediumBanners()
 |======== Some helper functions =========|
 ==========================================
 */
-function map (fn, arr) {
-  return arr.map(fn)
+function map (fn) {
+  return function (arr) {
+    return arr.map(fn)
+  }
 }
 
-function filter (fn, arr) {
-  return arr.filter(fn)
+function filter (fn) {
+  return function (arr) {
+    return arr.filter(fn)
+  }
+}
+
+function reduce (fn) {
+  return function (arr) {
+    return function (initialVal) {
+      return arr.reduce(fn, initialVal)
+    }
+  }
 }
 
 function isTruthy (value) {
   return !!value
+}
+
+function pipe (fns) {
+  return reduce(function (acc, nextFn) {
+    return nextFn(acc)
+  })(fns)
+}
+
+function emptyArray (n) {
+  return Array(n).fill()
+}
+
+function first (arr) {
+  return arr[0]
+}
+
+function iF (predicate) {
+  return function (whenTrue) {
+    return function (whenFalse) {
+      return function (value) {
+        return predicate(value) ? whenTrue(value) : whenFalse(value)
+      }
+    }
+  }
+}
+
+function when (predicate) {
+  return function (whenTrue) {
+    return iF(predicate)(whenTrue)(function () {
+      return undefined
+    })
+  }
+}
+
+function id (value) {
+  return function () {
+    return value
+  }
+}
+
+/*
+ * DOM helpers
+ */
+
+function removeDomNode (domNode) {
+  return domNode.remove()
+}
+
+function querySelector (selector) {
+  return document.querySelector(selector)
+}
+
+function querySelectorAll (selector) {
+  return [...document.querySelectorAll(selector)]
+}
+
+function parentNode (domNode) {
+  return domNode.parentNode
+}
+
+function nthGenerationParent (n) {
+  const safelyGetParent = when(isTruthy)(parentNode)
+  const getNParents = map(id(safelyGetParent))(emptyArray(n))
+  return pipe(getNParents)
+}
+
+function hasText (text) {
+  return function (node) {
+    return node.textContent.includes(text)
+  }
 }
 /* ===================================== */
