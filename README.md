@@ -6,3 +6,6 @@ To use: After opening a medium article, click the addon icon on your toolbar and
 
 https://chrome.google.com/webstore/detail/bophhfkkhlfjikhlpbjkiiknaepnkkcc  
 https://addons.mozilla.org/en-US/firefox/addon/medium-banner-remover
+
+To Do:
+Add a feature to remove the banners on page load rather than having to click the addon icon
