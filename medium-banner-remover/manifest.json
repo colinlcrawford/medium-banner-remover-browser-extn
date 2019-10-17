@@ -28,6 +28,10 @@
     "chrome_style": true
   },
 
+  "background": {
+    "scripts": ["background/background.js"]
+  },
+
   "content_scripts": [
     {
       "matches": [

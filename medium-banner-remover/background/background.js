@@ -21,7 +21,7 @@ function registerOnExtensionIconClicked (cb) {
 }
 
 function removeMediumBanners () {
-  return runMediumBannerRemoverScript('src/remove-medium-banners.js')
+  return runMediumBannerRemoverScript('background/remove-medium-banners.js')
 }
 
 registerOnExtensionIconClicked(removeMediumBanners)

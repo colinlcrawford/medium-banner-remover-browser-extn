@@ -1,6 +1,6 @@
 {
   "name": "medium-banner-remover",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Colin Crawford",
   "license": "MIT",
   "description": "Simple browser extension to remove annoying banners from medium articles",
@@ -11,15 +11,15 @@
     "remove",
     "banners"
   ],
-  "main": "background.js",
+  "main": "medium-banner-remover/background.js",
   "scripts": {
-    "test": "eslint src && npm run test:e2e",
+    "test": "eslint medium-banner-remover && npm run test:e2e",
     "test:e2e": "start-server-and-test serve-test-app http://localhost:8080 cypress",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "serve-test-app": "cp src/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
-    "clean": "rimraf medium-banner-remover && rimraf medium-banner-remover.zip",
-    "zip": "mkdir medium-banner-remover && cp -R {src,icons,manifest.json} medium-banner-remover && zip -r medium-banner-remover.zip medium-banner-remover",
+    "serve-test-app": "cp medium-banner-remover/background/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
+    "clean": "rimraf medium-banner-remover.zip",
+    "zip": "zip -r medium-banner-remover.zip medium-banner-remover",
     "firefox:build": "web-ext lint && web-ext build",
     "build": "npm run test && npm run clean && npm run zip && npm run firefox:build"
   },
