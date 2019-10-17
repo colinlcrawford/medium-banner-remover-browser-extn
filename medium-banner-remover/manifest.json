@@ -13,7 +13,8 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
 
   "browser_action": {
@@ -21,7 +22,18 @@
     "default_title": "Medium Banner Remover!"
   },
 
-  "background": {
-    "scripts": ["src/background.js"]
-  }
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true,
+    "chrome_style": true
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content-scripts/content-script.js"]
+    }
+  ]
 }
