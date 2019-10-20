@@ -1,17 +1,28 @@
 /* global browser, chrome */
 
-function getBrowser () {
-  if (chrome) return chrome
-  if (browser) return browser
+/* ======================== Extension API wrappers ========================= */
+function getFromStorage (key) {
+  if (chrome) {
+    return new Promise(resolve => chrome.storage.sync.get(key, v => resolve(v)))
+  }
+  if (browser) {
+    return browser.storage.sync.get(key)
+  }
+  return Promise.resolve()
 }
 
-function withBrowser (fn, noBrowser) {
-  const browser = getBrowser()
-  if (!browser && noBrowser) return noBrowser()
-  if (!browser) return
-  return fn(browser)
+function setInStorage (keyValues) {
+  if (chrome) {
+    return new Promise(resolve => chrome.storage.sync.set(keyValues, resolve))
+  }
+  if (browser) {
+    return browser.storage.sync.set(keyValues)
+  }
+  return Promise.resolve()
 }
+/* ========================================================================= */
 
+/* =========================== DOM interactors ============================= */
 function getAutoRunCheckbox () {
   return document.querySelector('#auto-run')
 }
@@ -25,48 +36,38 @@ function setAutoRunCheckbox (checked) {
 function autoRunIsChecked () {
   return getAutoRunCheckbox().checked
 }
+/* ========================================================================= */
 
-function getFromStorage (key) {
-  if (chrome) {
-    return new Promise(resolve => {
-      chrome.storage.sync.get(key, v => resolve(v))
-    })
-  }
-  if (browser) {
-    return browser.storage.sync.get(key)
-  }
-  return Promise.resolve()
-}
-
-function setInStorage (keyValues) {
-  if (chrome) {
-    return new Promise(resolve => {
-      chrome.storage.sync.set(keyValues, resolve)
-    })
-  }
-  if (browser) {
-    return browser.storage.sync.set(keyValues)
-  }
-  return Promise.resolve()
-}
-
+/* ========================= Storage Interactors =========================== */
 function pickAutoRun (obj) {
   return obj.autoRun
 }
 
-/** @returns a promise that resolves to a boolean saved by the user */
+/** returns a promise that resolves to a boolean saved by the user */
 function savedAutoRunIsChecked () {
   return getFromStorage('autoRun').then(pickAutoRun).then(Boolean)
 }
 
 function saveOptions (e) {
-  withBrowser(browser => setInStorage({ autoRun: autoRunIsChecked() }))
-  e.preventDefault()
+  setInStorage({ autoRun: autoRunIsChecked() })
 }
+/* ========================================================================= */
 
 function restoreOptions () {
   return savedAutoRunIsChecked().then(setAutoRunCheckbox)
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions)
-document.querySelector('form').addEventListener('submit', saveOptions)
+function handleFormSubmit (e) {
+  saveOptions()
+  e.preventDefault()
+}
+
+function listenForFormSubmit () {
+  return document.querySelector('form').addEventListener('submit', handleFormSubmit)
+}
+
+function main () {
+  restoreOptions().then(listenForFormSubmit)
+}
+
+main()
