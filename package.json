@@ -20,7 +20,7 @@
     "serve-test-app": "cp medium-banner-remover/content-scripts/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
     "clean": "rimraf medium-banner-remover.zip",
     "zip": "zip -r medium-banner-remover.zip medium-banner-remover",
-    "firefox:build": "web-ext lint && web-ext build",
+    "firefox:build": "web-ext lint -s medium-banner-remover && web-ext build -s medium-banner-remover",
     "build": "npm run test && npm run clean && npm run zip && npm run firefox:build"
   },
   "devDependencies": {
