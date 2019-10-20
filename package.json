@@ -17,7 +17,7 @@
     "test:e2e": "start-server-and-test serve-test-app http://localhost:8080 cypress",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "serve-test-app": "cp medium-banner-remover/background/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
+    "serve-test-app": "cp medium-banner-remover/content-scripts/remove-medium-banners.js test-app/ && static-server test-app -p 8080",
     "clean": "rimraf medium-banner-remover.zip",
     "zip": "zip -r medium-banner-remover.zip medium-banner-remover",
     "firefox:build": "web-ext lint && web-ext build",
