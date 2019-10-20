@@ -1,27 +1,58 @@
 /* global browserAction, chrome, tabs, browser */
 
-function runMediumBannerRemoverScript (file) {
+/* ======================== Extension API wrappers ========================= */
+function registerMessageListener (cb) {
   if (chrome) {
-    chrome.tabs.executeScript({ file })
+    return chrome.runtime.onMessage.addListener(cb)
   } else if (browser) {
-    tabs.executeScript({ file })
+    return browser.runtime.onMessage.addListener(cb)
   }
 }
+
+function runMediumBannerRemoverScript (file) {
+  if (chrome) {
+    return chrome.tabs.executeScript({ file })
+  } else if (browser) {
+    return tabs.executeScript({ file })
+  }
+}
+/* ========================================================================= */
+
+/* ============================= Utility Fns  ============================== */
+function when (predicate) {
+  return whenTrue => value => predicate(value) && whenTrue()
+}
+/* ========================================================================= */
 
 /**
  * registers a cb with the browser to be run when the
  * extension icon is clicked
+ * (the extension icon is on the bar at the top of the browser)
  */
 function registerOnExtensionIconClicked (cb) {
   if (chrome) {
-    chrome.browserAction.onClicked.addListener(cb)
+    return chrome.browserAction.onClicked.addListener(cb)
   } else if (browser) {
-    browserAction.onClicked.addListener(cb)
+    return browserAction.onClicked.addListener(cb)
   }
 }
 
-function removeMediumBanners () {
-  return runMediumBannerRemoverScript('/content-scripts/remove-medium-banners.js')
+function isClearBannersMessage (message) {
+  return message.command && (message.command === 'clearBanners')
 }
 
-registerOnExtensionIconClicked(removeMediumBanners)
+function removeMediumBanners () {
+  const scriptPath = '/content-scripts/remove-medium-banners.js'
+  return runMediumBannerRemoverScript(scriptPath)
+}
+
+function registerOnClearBannersMessageListener () {
+  return registerMessageListener(when(isClearBannersMessage)(removeMediumBanners))
+}
+
+function main () {
+  registerOnExtensionIconClicked(removeMediumBanners)
+  registerOnClearBannersMessageListener()
+}
+
+main()
