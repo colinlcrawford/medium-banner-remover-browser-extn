@@ -36,6 +36,6 @@
     "rimraf": "^2.7.1",
     "start-server-and-test": "^1.10.8",
     "static-server": "^2.2.1",
-    "web-ext": "^3.2.1"
+    "web-ext": "^4.1.0"
   }
 }
